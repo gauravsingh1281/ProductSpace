@@ -7,6 +7,7 @@ import {
 import updateIllustration from "../assets/images/update-img.svg";
 import { toast } from "react-toastify";
 import { useNavigate, useParams } from "react-router-dom";
+import { MdClose } from "react-icons/md";
 
 const EditProductDetails = () => {
   const { id } = useParams();
@@ -42,9 +43,18 @@ const EditProductDetails = () => {
   if (!product) {
     return <p className="text-center text-red-600 mt-10">Product not found</p>;
   }
+  const handleClose = () => {
+    navigate("/myListedProducts");
+  };
 
   return (
-    <div className="lg:w-[80%] mx-auto w-full h-fit lg:h-fit flex flex-col lg:flex-row justify-center items-start md:items-center shadow-xl rounded-2xl   overflow-hidden mt-7 ">
+    <div className="lg:w-[85%] mx-auto w-full h-fit lg:h-fit flex flex-col lg:flex-row justify-center items-start md:items-center shadow-xl rounded-2xl   overflow-hidden mt-7 relative p-5">
+      <button
+        className="absolute top-2 right-2 font-bold text-black hover:text-red-500 cursor-pointer hover:scale-[90%] transition-all ease-in duration-100"
+        onClick={handleClose}
+      >
+        <MdClose className="text-4xl" />
+      </button>
       <img
         className="h-full w-full lg:w-[60%]  object-cover"
         src={updateIllustration}
