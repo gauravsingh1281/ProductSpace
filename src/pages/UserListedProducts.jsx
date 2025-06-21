@@ -10,12 +10,16 @@ const UserListedProduct = () => {
   );
   return (
     <div className="w-full min-h-screen py-4 px-7">
-      <div>
-        <span className="text-2xl my-3">You Have Listed </span>
-        <span className="text-xl text-gray-600">{`${listedProduct.length} ${
-          listedProduct.length > 1 ? "Products" : "Product"
-        }`}</span>
-      </div>
+      {listedProduct && listedProduct.length > 0 ? (
+        <div>
+          <span className="text-2xl my-3">You Have Listed </span>
+          <span className="text-xl text-gray-600">{`${listedProduct.length} ${
+            listedProduct.length > 1 ? "Products" : "Product"
+          }`}</span>
+        </div>
+      ) : (
+        ""
+      )}
       {listedProduct && listedProduct.length > 0 ? (
         <div className="flex justify-start items-start flex-row  flex-wrap mt-4 gap-5">
           {listedProduct?.map((product) => (
@@ -23,7 +27,7 @@ const UserListedProduct = () => {
           ))}
         </div>
       ) : (
-        <p>You haven't listed any products yet.</p>
+        <p className="text-2xl my-3">You haven't listed any products yet.</p>
       )}
     </div>
   );

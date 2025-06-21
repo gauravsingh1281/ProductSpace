@@ -13,6 +13,7 @@ import {
   toggleWishlist,
 } from "../redux/features/wishlist/wishlistSlice";
 import { useNavigate } from "react-router-dom";
+import { deleteProduct } from "../redux/features/product/productSlice";
 
 const ProductCard = ({ product, isOwner }) => {
   const loggedInUser = useSelector((state) =>
@@ -85,7 +86,7 @@ const ProductCard = ({ product, isOwner }) => {
               </button>
               <button
                 type="button"
-                onClick={handleAddToCart}
+                onClick={() => dispatch(deleteProduct(product.id))}
                 className="btn bg-white hover:bg-blue-600 hover:text-white text-xl"
               >
                 <MdDelete />

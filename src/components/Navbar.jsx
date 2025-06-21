@@ -10,7 +10,6 @@ const Navbar = () => {
   const userCart = useSelector((state) => state.cart).filter(
     (item) => item.userId === loggedInUser?.id
   );
-  console.log(userCart);
   const cart = useSelector((state) => state.cart);
   const cartTotalItem = cart.reduce(
     (total, product) => total + product.quantity,
