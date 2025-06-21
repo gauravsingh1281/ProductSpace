@@ -1,13 +1,22 @@
 import { useSelector } from "react-redux";
 
 const BillingCard = () => {
-  const cart = useSelector((state) => state.cart);
+  const loggedInUser = useSelector((state) =>
+    state.user.find((u) => u.isLogin)
+  );
+
+  const cart = useSelector((state) =>
+    state.cart.filter((item) => item.userId === loggedInUser?.id)
+  );
+
   const subTotal = cart.reduce(
     (acc, item) => acc + item.price * item.quantity,
     0
   );
-  const tax = (subTotal * 0.1).toFixed(2);
+
+  const tax = (subTotal * 0.1).toFixed(2); // 10% shipping tax
   const totalBilling = (Number(subTotal) + Number(tax)).toFixed(2);
+
   return (
     <div className="mt-6 w-full rounded-lg border border-gray-200 bg-white p-6 shadow-md md:mt-0">
       <div className="mb-2 flex justify-between">

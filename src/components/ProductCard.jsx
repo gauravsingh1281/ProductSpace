@@ -28,7 +28,7 @@ const ProductCard = ({ product, isOwner }) => {
   const navigate = useNavigate();
   const handleAddToCart = () => {
     if (loggedInUser) {
-      dispatch(addToCart(product));
+      dispatch(addToCart({ ...product, userId: loggedInUser.id }));
     } else {
       toast.error("Please login to use this feature");
     }

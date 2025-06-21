@@ -4,28 +4,30 @@ import { NavLink, useNavigate } from "react-router-dom";
 import { logoutUser } from "../redux/features/user/userSlice";
 
 const Navbar = () => {
-  const loggedInUser = useSelector((state) =>
-    state.user.find((user) => user.isLogin === true)
+  const loggedInUser = useSelector((s) => s.user.find((u) => u.isLogin));
+  const userCart = useSelector((s) =>
+    s.cart.filter((item) => item.userId === loggedInUser?.id)
   );
-  const userCart = useSelector((state) => state.cart).filter(
-    (item) => item.userId === loggedInUser?.id
-  );
-  const cart = useSelector((state) => state.cart);
-  const cartTotalItem = cart.reduce(
-    (total, product) => total + product.quantity,
+
+  const cartTotalItem = userCart.reduce((total, p) => total + p.quantity, 0);
+
+  const subTotal = userCart.reduce(
+    (total, p) => total + p.price * p.quantity,
     0
   );
 
   const dispatch = useDispatch();
   const navigate = useNavigate();
+
   return (
-    <header className="navbar bg-indigo-900 shadow-sm px-6  text-white w-full">
+    <header className="navbar bg-indigo-900 px-6 text-white shadow-sm">
       <div className="flex-1">
-        <NavLink to="/" className="hover:underline text-xl">
+        <NavLink to="/" className="text-xl hover:underline">
           ProductSpace
         </NavLink>
       </div>
-      <div className="flex space-x-4 justify-center items-center">
+
+      <div className="flex items-center space-x-4">
         <NavLink to="/" className="hover:text-yellow-500">
           Home
         </NavLink>
@@ -44,6 +46,8 @@ const Navbar = () => {
             >
               Wishlist
             </NavLink>
+
+            {/* cart icon */}
             <div className="dropdown dropdown-end">
               <div
                 tabIndex={0}
@@ -58,29 +62,31 @@ const Navbar = () => {
                     viewBox="0 0 24 24"
                     stroke="white"
                   >
-                    {" "}
                     <path
                       strokeLinecap="round"
                       strokeLinejoin="round"
-                      strokeWidth="2"
+                      strokeWidth={2}
                       d="M3 3h2l.4 2M7 13h10l4-8H5.4M7 13L5.4 5M7 13l-2.293 2.293c-.63.63-.184 1.707.707 1.707H17m0 0a2 2 0 100 4 2 2 0 000-4zm-8 2a2 2 0 11-4 0 2 2 0 014 0z"
-                    />{" "}
+                    />
                   </svg>
                   <span className="badge badge-sm indicator-item">
-                    {" "}
                     {cartTotalItem}
                   </span>
                 </div>
               </div>
+
+              {/* cart dropdown */}
               <div
                 tabIndex={0}
-                className="card card-compact dropdown-content bg-base-100 z-1 mt-3 w-52 shadow"
+                className="card card-compact dropdown-content bg-base-100 z-10 mt-3 w-52 shadow"
               >
-                <div className="card-body">
-                  <span className="text-lg font-bold text-black">
-                    {cart.length > 0 ? cart.length : 0} Items
+                <div className="card-body text-black">
+                  <span className="text-lg font-bold">
+                    {userCart.length} Items
                   </span>
-                  <span className="text-info">Subtotal: &#8377; 999</span>
+                  <span className="text-info">
+                    Subtotal: ₹{subTotal.toFixed(2)}
+                  </span>
                   <div className="card-actions">
                     <button
                       onClick={() => navigate("/cart")}
@@ -92,6 +98,8 @@ const Navbar = () => {
                 </div>
               </div>
             </div>
+
+            {/* user avatar */}
             <div className="dropdown dropdown-end">
               <div
                 tabIndex={0}
@@ -107,23 +115,18 @@ const Navbar = () => {
               </div>
               <ul
                 tabIndex={0}
-                className="menu menu-sm dropdown-content bg-base-100 rounded-box z-1 mt-3 w-52 p-2 shadow text-black"
+                className="menu menu-sm dropdown-content bg-base-100 text-black rounded-box z-10 mt-3 w-52 p-2 shadow"
               >
                 <li>
                   <NavLink to="/profile" className="justify-between">
                     Profile
-                    <span className="badge">New</span>
                   </NavLink>
                 </li>
                 <li>
-                  <NavLink to="/addProduct" className="justify-between">
-                    Add Product
-                  </NavLink>
+                  <NavLink to="/addProduct">Add Product</NavLink>
                 </li>
                 <li>
-                  <NavLink to="/myListedProducts" className="justify-between">
-                    My Listed Products
-                  </NavLink>
+                  <NavLink to="/myListedProducts">My Listed Products</NavLink>
                 </li>
                 <li>
                   <button onClick={() => dispatch(logoutUser(loggedInUser.id))}>
