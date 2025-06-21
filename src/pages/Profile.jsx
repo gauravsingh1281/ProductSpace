@@ -18,7 +18,7 @@ const ProfilePage = () => {
     userFullName: user?.userFullName || "",
     gender: user?.gender || "",
     dob: user?.dob || "",
-    mobile: user?.mobile || "",
+    mobile: user?.mobileNo || "",
     address: user?.address || "",
     userImage: user?.userImage || "",
   });
