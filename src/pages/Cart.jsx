@@ -16,30 +16,34 @@ const Cart = () => {
 
   if (!loggedInUser)
     return (
-      <div className="py-20 text-center text-xl">
+      <div className="py-20 text-center text-2xl">
         Please log in to view your cart.
       </div>
     );
 
   return (
     <div className="py-12 max-w-7xl mx-auto px-4">
-      <h2 className="text-xl font-bold mb-5">Products in the Cart</h2>
+      {cart.length ? (
+        <h2 className="text-2xl my-3">Products in the Cart.</h2>
+      ) : (
+        <h2 className="text-2xl my-3 ">No product found in your cart.</h2>
+      )}
 
-      <div className="flex flex-col md:flex-row justify-between gap-8">
-        {/* items */}
-        <div className="md:w-2/3 space-y-6">
-          {cart.length ? (
-            cart.map((item) => <CartItem key={item.id} item={item} />)
-          ) : (
-            <p>No product found in your cart.</p>
-          )}
-        </div>
+      {cart.length ? (
+        <div className="flex flex-col md:flex-row justify-between gap-8">
+          {/* items */}
+          <div className="md:w-2/3 space-y-6">
+            {cart.map((item) => (
+              <CartItem key={item.id} item={item} />
+            ))}
+          </div>
 
-        {/* billing */}
-        <div className="md:w-1/3">
-          <BillingCard />
+          {/* billing */}
+          <div className="md:w-1/3">
+            <BillingCard />
+          </div>
         </div>
-      </div>
+      ) : null}
     </div>
   );
 };
