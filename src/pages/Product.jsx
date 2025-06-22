@@ -7,6 +7,7 @@ import {
   selectProductStatus,
 } from "../redux/features/product/productSlice";
 import ProductCard from "../components/ProductCard";
+import SkeletonCard from "../components/SkeletonCard";
 
 const Product = () => {
   const dispatch = useDispatch();
@@ -30,7 +31,13 @@ const Product = () => {
   return (
     <div className="py-8 w-full mx-auto px-4">
       <div>
-        {status === "loading" && <p>Loading Products ...</p>}
+        {status === "loading" && (
+          <div className="flex flex-wrap justify-center md:justify-start gap-5">
+            {Array.from({ length: 6 }).map((_, i) => (
+              <SkeletonCard key={i} />
+            ))}
+          </div>
+        )}
         {error && <p className="text-red-600">{error}</p>}
         {status !== "loading" && !productsList.length && (
           <p>No products found.</p>
