@@ -14,6 +14,7 @@ const AddProduct = lazy(() => import("../pages/AddProduct"));
 const UserListedProduct = lazy(() => import("../pages/UserListedProducts"));
 const EditProductDetails = lazy(() => import("../pages/EditProductDetails"));
 const ProtectedRoute = lazy(() => import("../components/ProtectedRoute"));
+const PageNotFound = lazy(() => import("../components/PageNotFound"));
 
 const RootRoute = () => {
   return (
@@ -72,6 +73,7 @@ const RootRoute = () => {
               </ProtectedRoute>
             }
           />
+          <Route path="*" element={<PageNotFound />} />
         </Route>
       </Routes>
     </Suspense>
