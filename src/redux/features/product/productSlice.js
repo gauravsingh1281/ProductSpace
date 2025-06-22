@@ -1,4 +1,5 @@
 import { createSlice, createAsyncThunk } from "@reduxjs/toolkit";
+import { createSelector } from "reselect";
 import axios from "axios";
 import { nanoid } from "nanoid";
 
@@ -90,7 +91,9 @@ export const { addNewProduct, updateProduct, deleteProduct } =
 export const selectProducts = (state) => state.product.items;
 export const selectProductStatus = (state) => state.product.status;
 export const selectProductError = (state) => state.product.error;
-export const selectProductsByUserId = (state, userId) =>
-  state.product.items.filter((product) => product.userId === userId);
+export const makeSelectProductsByUserId = (userId) =>
+  createSelector([(state) => state.product.items], (items) =>
+    items.filter((p) => p.userId === userId)
+  );
 
 export default productSlice.reducer;

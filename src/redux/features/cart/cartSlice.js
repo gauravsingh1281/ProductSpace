@@ -1,4 +1,5 @@
 import { createSlice } from "@reduxjs/toolkit";
+import { createSelector } from "reselect";
 import { nanoid } from "nanoid";
 import { toast } from "react-toastify";
 
@@ -53,4 +54,20 @@ const cartSlice = createSlice({
 
 export const { addToCart, incrementQuantity, decrementQuantity, removeItem } =
   cartSlice.actions;
+const selectCart = (state) => state.cart;
+
+export const makeSelectCartByUserId = (userId) =>
+  createSelector([selectCart], (cart) =>
+    cart.filter((item) => item.userId === userId)
+  );
+
+export const makeSelectCartItemCount = (userId) =>
+  createSelector([makeSelectCartByUserId(userId)], (userCart) =>
+    userCart.reduce((total, item) => total + item.quantity, 0)
+  );
+
+export const makeSelectCartSubtotal = (userId) =>
+  createSelector([makeSelectCartByUserId(userId)], (userCart) =>
+    userCart.reduce((sum, item) => sum + item.price * item.quantity, 0)
+  );
 export default cartSlice.reducer;

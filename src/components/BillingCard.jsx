@@ -1,13 +1,18 @@
+import { useMemo } from "react";
 import { useSelector } from "react-redux";
+import { makeSelectCartByUserId } from "../redux/features/cart/cartSlice";
 
 const BillingCard = () => {
   const loggedInUser = useSelector((state) =>
     state.user.find((u) => u.isLogin)
   );
 
-  const cart = useSelector((state) =>
-    state.cart.filter((item) => item.userId === loggedInUser?.id)
+  const selectUserCart = useMemo(
+    () => makeSelectCartByUserId(loggedInUser?.id),
+    [loggedInUser?.id]
   );
+
+  const cart = useSelector(selectUserCart);
 
   const subTotal = cart.reduce(
     (acc, item) => acc + item.price * item.quantity,

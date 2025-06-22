@@ -1,13 +1,18 @@
 import { useSelector } from "react-redux";
+import { useMemo } from "react";
 import CartItem from "../components/CartItem";
 import BillingCard from "../components/BillingCard";
+import { makeSelectCartByUserId } from "../redux/features/cart/cartSlice";
 
 const Cart = () => {
   const loggedInUser = useSelector((s) => s.user.find((u) => u.isLogin));
 
-  const cart = useSelector((s) =>
-    s.cart.filter((item) => item.userId === loggedInUser?.id)
+  const cartSelector = useMemo(
+    () => makeSelectCartByUserId(loggedInUser?.id),
+    [loggedInUser?.id]
   );
+
+  const cart = useSelector(cartSelector);
 
   if (!loggedInUser)
     return (

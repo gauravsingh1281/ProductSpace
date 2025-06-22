@@ -1,13 +1,16 @@
 import { useSelector } from "react-redux";
-import { selectProductsByUserId } from "../redux/features/product/productSlice";
+import { useMemo } from "react";
+import { makeSelectProductsByUserId } from "../redux/features/product/productSlice";
 import ProductCard from "../components/ProductCard";
 const UserListedProduct = () => {
   const loggedInUser = useSelector((state) =>
     state.user.find((user) => user.isLogin === true)
   );
-  const listedProduct = useSelector((state) =>
-    selectProductsByUserId(state, loggedInUser?.id)
+  const selectUserProducts = useMemo(
+    () => makeSelectProductsByUserId(loggedInUser?.id),
+    [loggedInUser?.id]
   );
+  const listedProduct = useSelector(selectUserProducts);
   return (
     <div className="w-full min-h-screen py-4 px-7">
       {listedProduct && listedProduct.length > 0 ? (

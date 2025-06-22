@@ -1,23 +1,39 @@
-import React from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { NavLink, useNavigate } from "react-router-dom";
 import { logoutUser } from "../redux/features/user/userSlice";
+import {
+  makeSelectCartItemCount,
+  makeSelectCartSubtotal,
+  makeSelectCartByUserId,
+} from "../redux/features/cart/cartSlice";
+import { useMemo } from "react";
 
 const Navbar = () => {
-  const loggedInUser = useSelector((s) => s.user.find((u) => u.isLogin));
-  const userCart = useSelector((s) =>
-    s.cart.filter((item) => item.userId === loggedInUser?.id)
-  );
-
-  const cartTotalItem = userCart.reduce((total, p) => total + p.quantity, 0);
-
-  const subTotal = userCart.reduce(
-    (total, p) => total + p.price * p.quantity,
-    0
-  );
-
   const dispatch = useDispatch();
   const navigate = useNavigate();
+
+  const loggedInUser = useSelector((state) =>
+    state.user.find((user) => user.isLogin)
+  );
+
+  const selectItemCount = useMemo(
+    () => makeSelectCartItemCount(loggedInUser?.id),
+    [loggedInUser?.id]
+  );
+
+  const selectSubtotal = useMemo(
+    () => makeSelectCartSubtotal(loggedInUser?.id),
+    [loggedInUser?.id]
+  );
+
+  const selectUserCart = useMemo(
+    () => makeSelectCartByUserId(loggedInUser?.id),
+    [loggedInUser?.id]
+  );
+
+  const itemCount = useSelector(selectItemCount);
+  const subtotal = useSelector(selectSubtotal);
+  const userCart = useSelector(selectUserCart);
 
   return (
     <header className="navbar bg-indigo-900 px-6 text-white shadow-sm">
@@ -47,7 +63,7 @@ const Navbar = () => {
               Wishlist
             </NavLink>
 
-            {/* cart icon */}
+            {/* Cart dropdown */}
             <div className="dropdown dropdown-end">
               <div
                 tabIndex={0}
@@ -70,12 +86,11 @@ const Navbar = () => {
                     />
                   </svg>
                   <span className="badge badge-sm indicator-item">
-                    {cartTotalItem}
+                    {itemCount}
                   </span>
                 </div>
               </div>
 
-              {/* cart dropdown */}
               <div
                 tabIndex={0}
                 className="card card-compact dropdown-content bg-base-100 z-10 mt-3 w-52 shadow"
@@ -85,7 +100,7 @@ const Navbar = () => {
                     {userCart.length} Items
                   </span>
                   <span className="text-info">
-                    Subtotal: ₹{subTotal.toFixed(2)}
+                    Subtotal: ₹{subtotal.toFixed(2)}
                   </span>
                   <div className="card-actions">
                     <button
@@ -99,7 +114,7 @@ const Navbar = () => {
               </div>
             </div>
 
-            {/* user avatar */}
+            {/* Avatar dropdown */}
             <div className="dropdown dropdown-end">
               <div
                 tabIndex={0}
@@ -118,9 +133,7 @@ const Navbar = () => {
                 className="menu menu-sm dropdown-content bg-base-100 text-black rounded-box z-10 mt-3 w-52 p-2 shadow"
               >
                 <li>
-                  <NavLink to="/profile" className="justify-between">
-                    Profile
-                  </NavLink>
+                  <NavLink to="/profile">Profile</NavLink>
                 </li>
                 <li>
                   <NavLink to="/addProduct">Add Product</NavLink>
