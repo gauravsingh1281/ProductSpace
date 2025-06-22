@@ -6,12 +6,15 @@ import {
   removeItem,
 } from "../redux/features/cart/cartSlice";
 const CartItem = ({ item }) => {
-  const { id, name, price, imageUrl, description, category, quantity } = item;
+  const { id, name, price, imageUrl, category, quantity } = item;
   const dispatch = useDispatch();
   return (
     <>
       <div className="rounded-lg">
-        <div className="sm:flex sm:justify-start items-center shadow-md p-6 bg-white rounded-lg mb-6 justify-between  border border-gray-200">
+        <div className="sm:flex sm:justify-start items-center shadow-md p-6 bg-white rounded-lg mb-6 justify-between  border border-gray-200 relative">
+          <button onClick={() => dispatch(removeItem(id))}>
+            <IoMdClose className="text-red-500 text-xl font-bold absolute right-3.5 top-2.5 cursor-pointer" />
+          </button>
           {/* Product image */}
           <img
             src={imageUrl}
@@ -47,10 +50,7 @@ const CartItem = ({ item }) => {
                 </span>
               </div>
               <div className="flex justify-center items-center space-x-4">
-                <p>{(price * quantity).toFixed(2)}</p>
-                <button onClick={() => dispatch(removeItem(id))}>
-                  <IoMdClose className="text-red-500 text-sm font-bold" />
-                </button>
+                <p>Total Item Price: &#8377;{(price * quantity).toFixed(2)}</p>
               </div>
             </div>
           </div>

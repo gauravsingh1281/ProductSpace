@@ -42,8 +42,8 @@ const formatJoinedDate = (dateStr) => {
   const msInDay = 1000 * 60 * 60 * 24;
   const diffDays = Math.floor((startOfNow - startOfJoined) / msInDay);
 
-  if (diffDays === 0) return "today";
-  if (diffDays === 1) return "yesterday";
+  if (diffDays === 0) return "Today";
+  if (diffDays === 1) return "Yesterday";
   if (diffDays <= 7) return `${diffDays} days ago`;
 
   const day = joinedDate.getDate();

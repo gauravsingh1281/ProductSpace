@@ -36,19 +36,26 @@ const cartSlice = createSlice({
     },
 
     incrementQuantity: (state, action) => {
-      const item = state.find((i) => i.id === action.payload);
-      if (item) item.quantity++;
+      return state.map((item) =>
+        item.id === action.payload
+          ? { ...item, quantity: item.quantity + 1 }
+          : item
+      );
     },
 
     decrementQuantity: (state, action) => {
-      const idx = state.findIndex((i) => i.id === action.payload);
-      if (idx !== -1) {
-        if (state[idx].quantity > 1) state[idx].quantity--;
-        else state.splice(idx, 1);
-      }
+      return state
+        .map((item) =>
+          item.id === action.payload
+            ? { ...item, quantity: item.quantity - 1 }
+            : item
+        )
+        .filter((item) => item.quantity > 0);
     },
 
-    removeItem: (state, action) => state.filter((i) => i.id !== action.payload),
+    removeItem: (state, action) => {
+      return state.filter((item) => item.id !== action.payload);
+    },
   },
 });
 
