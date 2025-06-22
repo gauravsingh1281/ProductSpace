@@ -73,6 +73,10 @@ export const makeSelectCartItemCount = (userId) =>
     userCart.reduce((total, item) => total + item.quantity, 0)
   );
 
+export const makeSelectIsProductInCart = (userId, productId) =>
+  createSelector([selectCart], (cart) =>
+    cart.some((item) => item.userId === userId && item.productId === productId)
+  );
 export const makeSelectCartSubtotal = (userId) =>
   createSelector([makeSelectCartByUserId(userId)], (userCart) =>
     userCart.reduce((sum, item) => sum + item.price * item.quantity, 0)

@@ -8,12 +8,15 @@ import {
   MdEdit,
   MdDelete,
 } from "react-icons/md";
+import { IoCartOutline, IoCartSharp } from "react-icons/io5";
 import {
   isProductInWishlist,
   toggleWishlist,
 } from "../redux/features/wishlist/wishlistSlice";
 import { useNavigate } from "react-router-dom";
 import { deleteProduct } from "../redux/features/product/productSlice";
+import { useMemo } from "react";
+import { makeSelectIsProductInCart } from "../redux/features/cart/cartSlice";
 
 const ProductCard = ({ product, isOwner }) => {
   const loggedInUser = useSelector((state) =>
@@ -23,6 +26,13 @@ const ProductCard = ({ product, isOwner }) => {
   const isWishlisted = useSelector((state) => {
     return isProductInWishlist(state, loggedInUser?.id, product?.id);
   });
+
+  const isProductAddedToCart = useSelector(
+    useMemo(
+      () => makeSelectIsProductInCart(loggedInUser?.id, product.id),
+      [loggedInUser?.id, product.id]
+    )
+  );
   const { name, imageUrl, description, price } = product;
   const dispatch = useDispatch();
   const navigate = useNavigate();
@@ -59,20 +69,24 @@ const ProductCard = ({ product, isOwner }) => {
               <button
                 type="button"
                 onClick={handleToggleWishlist}
-                className="btn bg-white hover:bg-blue-600 hover:text-white text-xl"
+                className="btn bg-white hover:scale-[90%]  transition-all ease-in duration-100 cursor-pointer text-2xl rounded-full"
               >
                 {isWishlisted ? (
-                  <MdOutlineFavorite className="text-red-500" />
+                  <MdOutlineFavorite className="text-[#FB2C36]" />
                 ) : (
-                  <MdOutlineFavoriteBorder className="text-red-500" />
+                  <MdOutlineFavoriteBorder className="text-[#FB2C36]" />
                 )}
               </button>
               <button
                 type="button"
                 onClick={handleAddToCart}
-                className="btn bg-white hover:bg-blue-600 hover:text-white text-xl"
+                className="btn bg-white hover:scale-[90%]  transition-all ease-in duration-100 cursor-pointer text-2xl rounded-full"
               >
-                <BiSolidCartAdd />
+                {isProductAddedToCart ? (
+                  <IoCartSharp className="text-[#4ae009]" />
+                ) : (
+                  <IoCartOutline className="text-[#2C444E]" />
+                )}
               </button>
             </div>
           ) : (
@@ -80,16 +94,16 @@ const ProductCard = ({ product, isOwner }) => {
               <button
                 type="button"
                 onClick={() => navigate(`/edit/${product.id}`)}
-                className="btn bg-white hover:bg-blue-600 hover:text-white text-xl"
+                className="btn bg-white hover:scale-[90%]  transition-all ease-in duration-100 cursor-pointer text-2xl rounded-full"
               >
-                <MdEdit />
+                <MdEdit className="text-[#FFC801]" />
               </button>
               <button
                 type="button"
                 onClick={() => dispatch(deleteProduct(product.id))}
-                className="btn bg-white hover:bg-blue-600 hover:text-white text-xl"
+                className="btn bg-white hover:scale-[90%]  transition-all ease-in duration-100 cursor-pointer text-2xl rounded-full"
               >
-                <MdDelete />
+                <MdDelete className="text-[#2C444E]" />
               </button>
             </div>
           )}
