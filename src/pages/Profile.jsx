@@ -83,7 +83,7 @@ const ProfilePage = () => {
           {!edit && (
             <button
               onClick={() => setEdit(true)}
-              className="mt-4 px-4 py-1 rounded-full bg-[#2A454E] text-[#FFC801] font-semibold"
+              className="mt-4 px-4 py-1 rounded-full bg-[#2A454E] text-[#FFC801] font-semibold cursor-pointer"
             >
               Edit Profile
             </button>
@@ -179,7 +179,7 @@ const ProfilePage = () => {
               <div className="flex gap-4">
                 <button
                   onClick={save}
-                  className="flex-1 bg-green-600 text-white py-2 rounded"
+                  className="flex-1 bg-green-600 text-white py-2 rounded cursor-pointer"
                 >
                   Save
                 </button>
@@ -197,7 +197,7 @@ const ProfilePage = () => {
                       userImage: user.userImage || "",
                     });
                   }}
-                  className="flex-1 bg-gray-300 py-2 rounded"
+                  className="flex-1 bg-gray-300 py-2 rounded cursor-pointer"
                 >
                   Cancel
                 </button>
@@ -248,7 +248,7 @@ const Input = ({ label, ...props }) => (
 const TabButton = ({ label, icon, active, ...rest }) => (
   <button
     {...rest}
-    className={`flex items-center gap-1 px-3 py-1 rounded-full text-sm font-medium shadow ${
+    className={`flex cursor-pointer items-center gap-1 px-3 py-1 rounded-full text-sm font-medium shadow ${
       active ? "bg-indigo-600 text-white" : "bg-gray-200 text-gray-700"
     }`}
   >
