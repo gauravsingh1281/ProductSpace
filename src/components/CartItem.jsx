@@ -1,62 +1,67 @@
-import { IoMdAdd, IoMdClose, IoMdRemove, IoMdTime } from "react-icons/io";
+import { IoMdAdd, IoMdClose, IoMdRemove } from "react-icons/io";
 import { useDispatch } from "react-redux";
 import {
   decrementQuantity,
   incrementQuantity,
   removeItem,
 } from "../redux/features/cart/cartSlice";
+
 const CartItem = ({ item }) => {
   const { id, name, price, imageUrl, category, quantity } = item;
   const dispatch = useDispatch();
+
   return (
-    <>
-      <div className="rounded-lg">
-        <div className="sm:flex sm:justify-start items-center shadow-md p-6 bg-white rounded-lg mb-6 justify-between  border border-gray-200 relative">
-          <button onClick={() => dispatch(removeItem(id))}>
-            <IoMdClose className="text-red-500 text-xl font-bold absolute right-3.5 top-2.5 cursor-pointer" />
-          </button>
-          {/* Product image */}
-          <img
-            src={imageUrl}
-            alt={`${name}-img`}
-            className="w-full h-28 sm:w-40 object-cover object-top rounded"
-          />
-          {/* Product details */}
-          <div className="sm:ml-4 sm:flex sm:w-full sm:justify-between">
-            <div>
-              <h3 className="text-lg font-bold text-gray-900">{name}</h3>
-              <p className="text-sm text-gray-500">Price: &#8377; {price}</p>
-              <p className="text-gray-600 text-sm">Category: {category}</p>
-            </div>
-            {/* Product Quantity */}
+    <div className="relative flex justify-center flex-col md:flex-row md:justify-between items-center p-3 bg-white border border-gray-200 rounded-xl shadow-sm overflow-hidden mb-6">
+      {/* Close button */}
+      <button
+        onClick={() => dispatch(removeItem(id))}
+        className="absolute top-3 right-3 z-10 bg-white rounded-full p-1 hover:bg-red-100 transition"
+        aria-label="Remove item"
+      >
+        <IoMdClose className="text-red-500" size={20} />
+      </button>
 
-            <div className="mt-4 justify-between sm:space-y-6 sm:mt-0 sm:block sm:space-x-6">
-              <div className="flex items-center gap-3 ">
-                <span
-                  onClick={() => dispatch(decrementQuantity(id))}
-                  className="cursor-pointer rounded-lg bg-gray-100 duration-100  hover:bg-blue-500 px-3.5 py-1 hover:text-white flex justify-between items-center"
-                >
-                  <IoMdRemove className="inline" />
-                </span>
+      {/* Product Image */}
+      <div className="w-full md:w-[40%] flex justify-center items-center">
+        <img
+          src={imageUrl}
+          alt={`${name}-img`}
+          className="md:w-[200px] object-cover"
+        />
+      </div>
 
-                <p className=" bg-white text-center text-base outline-none">
-                  {quantity}
-                </p>
-                <span
-                  onClick={() => dispatch(incrementQuantity(id))}
-                  className="flex justify-between items-center cursor-pointer rounded-lg bg-gray-100 duration-100  hover:bg-blue-500 px-3.5 py-1 hover:text-white"
-                >
-                  <IoMdAdd className="inline" />
-                </span>
-              </div>
-              <div className="flex justify-center items-center space-x-4">
-                <p>Total Item Price: &#8377;{(price * quantity).toFixed(2)}</p>
-              </div>
-            </div>
+      {/* Product Details */}
+      <div className="p-4 flex flex-col gap-4 w-full md:w-[60%]">
+        <div className="space-y-1 text-gray-700">
+          <h3 className="text-lg font-semibold text-gray-900">{name}</h3>
+          <p className="text-sm text-gray-500">Category: {category}</p>
+          <p className="text-sm text-gray-600">Price: ₹{price}</p>
+        </div>
+
+        {/* Quantity Controls */}
+        <div className="flex items-center md:justify-start gap-5">
+          <div className="flex items-center space-x-3">
+            <button
+              onClick={() => dispatch(decrementQuantity(id))}
+              className="p-2 rounded-md bg-gray-100 hover:bg-blue-600 hover:text-white transition"
+            >
+              <IoMdRemove />
+            </button>
+            <span className="min-w-[30px] text-center">{quantity}</span>
+            <button
+              onClick={() => dispatch(incrementQuantity(id))}
+              className="p-2 rounded-md bg-gray-100 hover:bg-blue-600 hover:text-white transition"
+            >
+              <IoMdAdd />
+            </button>
           </div>
+
+          <p className="text-sm font-medium text-indigo-600">
+            Total: ₹{(price * quantity).toFixed(2)}
+          </p>
         </div>
       </div>
-    </>
+    </div>
   );
 };
 
