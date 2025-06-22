@@ -55,6 +55,7 @@ const AddProduct = () => {
               id="name"
               placeholder="Enter Product Name"
               {...register("name", { required: true })}
+              autoComplete="off"
             />
             {errors.name && (
               <p className="text-red-500 text-sm my-[2px]">
@@ -72,6 +73,7 @@ const AddProduct = () => {
               id="description"
               placeholder="Write Product Description"
               {...register("description", { required: true })}
+              autoComplete="off"
             ></textarea>
             {errors.description && (
               <p className="text-red-500 text-sm my-[2px]">
@@ -100,6 +102,7 @@ const AddProduct = () => {
               <option value="gadget">Gadget</option>
               <option value="clothing">Clothing</option>
               <option value="beauty">Beauty</option>
+              <option value="others">Others</option>
             </select>
             {errors.category && (
               <p className="text-red-500 text-sm my-[2px]">
@@ -119,6 +122,7 @@ const AddProduct = () => {
               id="image"
               placeholder="Paste Image Url"
               {...register("imageUrl", { required: true })}
+              autoComplete="off"
             />
             {errors.imageUrl && (
               <p className="text-red-500 text-sm my-[2px]">
@@ -139,6 +143,7 @@ const AddProduct = () => {
                 id="price"
                 placeholder="Set Price eg. &#8377;100"
                 {...register("price", { required: true })}
+                autoComplete="off"
               />
               {errors.price && (
                 <p className="text-red-500 text-sm my-[2px]">
