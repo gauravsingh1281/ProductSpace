@@ -13,7 +13,6 @@ const Wishlist = () => {
   );
 
   const wishlistProducts = useSelector(selectWishlistByUser);
-  console.log(wishlistProducts);
 
   return (
     <>

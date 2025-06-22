@@ -4,6 +4,7 @@ import { useDispatch, useSelector } from "react-redux";
 import { addNewProduct } from "../redux/features/product/productSlice";
 import addProductIllustration from "../assets/images/addProduct.jpg";
 import { toast } from "react-toastify";
+import { useNavigate } from "react-router-dom";
 
 const AddProduct = () => {
   const loggedInUser = useSelector((state) =>
@@ -15,6 +16,7 @@ const AddProduct = () => {
     reset,
     formState: { errors },
   } = useForm();
+  const navigate = useNavigate();
   const dispatch = useDispatch();
   const handleAddProduct = (data) => {
     const productDetails = {
@@ -25,8 +27,10 @@ const AddProduct = () => {
     };
     dispatch(addNewProduct(productDetails));
     reset();
+    navigate("/myListedProducts");
     toast.success("Product Successfully Added.");
   };
+
   return (
     <div className="lg:w-[80%] mx-auto w-full h-fit lg:h-fit flex flex-col lg:flex-row justify-center items-start shadow-xl rounded-2xl   overflow-hidden mt-7 ">
       <img

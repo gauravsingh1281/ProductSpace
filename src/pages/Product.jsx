@@ -37,7 +37,11 @@ const Product = () => {
         )}
         <div className="flex justify-center md:justify-start items-start md:flex-row flex-col flex-wrap mt-4 gap-5 mx-auto">
           {sortedProducts.map((product) => {
-            const isOwner = loggedInUser?.id === product.userId;
+            const isOwner =
+              loggedInUser?.id &&
+              product?.userId &&
+              loggedInUser.id === product.userId;
+
             return (
               <ProductCard
                 key={product.id}

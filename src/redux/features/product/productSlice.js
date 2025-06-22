@@ -16,6 +16,7 @@ export const fetchProducts = createAsyncThunk(
       description: product.description,
       imageUrl: [product.image],
       date: new Date().toISOString().split("T")[0],
+      userId: null,
     }));
   }
 );

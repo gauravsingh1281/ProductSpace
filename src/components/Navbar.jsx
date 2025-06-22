@@ -34,6 +34,10 @@ const Navbar = () => {
   const itemCount = useSelector(selectItemCount);
   const subtotal = useSelector(selectSubtotal);
   const userCart = useSelector(selectUserCart);
+  const handleLogout = () => {
+    dispatch(logoutUser(loggedInUser.id));
+    navigate("/login");
+  };
 
   return (
     <header className="navbar bg-indigo-900 px-6 text-white shadow-sm">
@@ -142,9 +146,7 @@ const Navbar = () => {
                   <NavLink to="/myListedProducts">My Listed Products</NavLink>
                 </li>
                 <li>
-                  <button onClick={() => dispatch(logoutUser(loggedInUser.id))}>
-                    Logout
-                  </button>
+                  <button onClick={handleLogout}>Logout</button>
                 </li>
               </ul>
             </div>
